@@ -1,4 +1,3 @@
-import * as Rx from "rxjs";
 import { h1, div, a, input } from "./Html";
 
 window.onload = () => {

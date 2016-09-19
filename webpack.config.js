@@ -12,8 +12,5 @@ module.exports = {
             { test: /\.json$/, loader: "json-loader" }
         ],
     },
-    externals: {
-        "jquery": "jQuery",
-        "rx": "Rx"
-    }
+    externals: {}
 }
