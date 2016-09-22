@@ -17,7 +17,7 @@ npm install --save expanse
 
 ## Usage
 
-Here's a simple example how to use the library (in TypeScript):
+Here's an example how to use the library (in TypeScript):
 
 ```js
 import { h1, div, p, a, input } from "expanse";
