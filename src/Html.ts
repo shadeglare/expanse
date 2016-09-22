@@ -5,6 +5,8 @@ class Tag {
         this.element = document.createElement(name);
     }
 
+    public get native() { return this.element; }
+
     public text(): string;
     public text(value: string): this;
     public text(value?: string): this | string {
@@ -18,11 +20,17 @@ class Tag {
 
     public css(): CSSStyleDeclaration;
     public css(name: string): string;
-    public css(name?: string): CSSStyleDeclaration | string {
+    public css(name: string, value: string | number): this;
+    public css(name?: string, value?: string | number): CSSStyleDeclaration | string | this {
         if (isUndefined(name)) {
             return window.getComputedStyle(this.element);
         } else {
-            return window.getComputedStyle(this.element)[name];
+            if (isUndefined(value)) {
+                return window.getComputedStyle(this.element)[name];
+            } else {
+                this.element.style[name] = isString(value) ? value : value.toString();
+                return this;
+            }
         }
     }
 
