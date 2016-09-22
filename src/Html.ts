@@ -8,7 +8,7 @@ export interface ITag {
 
     css(): CSSStyleDeclaration;
     css(name: string): string;
-    css(name: string, value: string | number);
+    css(name: string, value: string | number): this;
 
     className(): string;
     className(name: string): this;
