@@ -1,4 +1,4 @@
-import { h1, div, a, input } from "./Html";
+import { h1, div, a, input } from "./../src/Html";
 
 window.onload = () => {
     console.log("welcome to expanse");

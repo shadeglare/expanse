@@ -1,6 +1,33 @@
 import { isUndefined, isString } from "./Utils";
 
-class Tag {
+export interface ITag {
+    native: HTMLElement;
+
+    text(): string;
+    text(value: string): this;
+
+    css(): CSSStyleDeclaration;
+    css(name: string): string;
+    css(name: string, value: string | number);
+
+    className(): string;
+    className(name: string): this;
+    removeClassName(): this;
+
+    attr(name: string): string;
+    attr(name: string, value: string): this;
+    removeAttr(name: string): this;
+
+    append(...args: any[]): this;
+    appendTo(target: HTMLElement): this;
+    appendTo(target: ITag): this;
+    detach(): this;
+
+    on(event: string, callback: (e: Event) => any): this;
+    off(event: string, callback?: (e: Event) => any): this;
+}
+
+class Tag implements ITag {
     constructor(private name: string) {
         this.element = document.createElement(name);
     }
@@ -61,8 +88,9 @@ class Tag {
         }
     }
 
-    public removeAttr(name: string) {
+    public removeAttr(name: string): this {
         this.element.removeAttribute(name);
+        return this;
     }
 
     public append(...args: any[]): this {
@@ -91,21 +119,22 @@ class Tag {
         return this;
     }
 
-    public detach() {
+    public detach(): this {
         let parent = this.element.parentNode;
         if (parent) {
             parent.removeChild(this.element);
         }
+        return this;
     }
 
-    public on(event: string, callback: (e: Event) => any) {
+    public on(event: string, callback: (e: Event) => any): this {
         this.element.addEventListener(event, callback);
         this.eventListeners[event] = this.eventListeners[event] || [];
         this.eventListeners[event].push(callback);
         return this;
     }
 
-    public off(event: string, callback?: (e: Event) => any) {
+    public off(event: string, callback?: (e: Event) => any): this {
         let callbacks = this.removeEventListeners(event, callback);
         callbacks.forEach(x => this.element.removeEventListener(event, x));
         return this;
@@ -131,7 +160,7 @@ class Tag {
 }
 
 export function tag(name: string) {
-    return function(...args: any[]) {
+    return function(...args: any[]): ITag {
         let instance = new Tag(name);
         return instance.append(...args);
     }

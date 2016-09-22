@@ -1,17 +1,25 @@
 {
   "name": "expanse",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.5.0",
+  "description": "A simple HTML DOM builder based on the native DOM API",
+  "main": "dst/Html.js",
+  "typings": "dist/Html.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "keywords": [
+    "html",
+    "dom",
+    "dom builder",
+    "typescript",
+    "util",
+    "utility"
+  ],
+  "author": "Max Koverdyaev <shadeglare@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
     "json-loader": "^0.5.4",
-    "rxjs": "^5.0.0-beta.12",
     "ts-loader": "^0.8.2",
-    "typescript": "^2.1.0-dev.20160910"
+    "typescript": "^2.0.3"
   }
 }
