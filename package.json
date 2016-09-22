@@ -1,8 +1,8 @@
 {
   "name": "expanse",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A simple HTML DOM builder based on the native DOM API",
-  "main": "dst/Html.js",
+  "main": "dist/Html.js",
   "typings": "dist/Html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
