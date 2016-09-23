@@ -9,6 +9,7 @@ export interface ITag {
     css(): CSSStyleDeclaration;
     css(name: string): string;
     css(name: string, value: string | number): this;
+    css(style: { [mark: string]: string | number }): this;
 
     className(): string;
     className(name: string): this;
@@ -48,14 +49,23 @@ class Tag implements ITag {
     public css(): CSSStyleDeclaration;
     public css(name: string): string;
     public css(name: string, value: string | number): this;
-    public css(name?: string, value?: string | number): CSSStyleDeclaration | string | this {
-        if (isUndefined(name)) {
+    public css(properties: { [mark: string]: string | number }): this;
+    public css(
+        nameOrProperties?: string | { [mark: string]: string | number }, 
+        value?: string | number
+    ): CSSStyleDeclaration | string | this {
+        if (isUndefined(nameOrProperties)) {
             return window.getComputedStyle(this.element);
         } else {
-            if (isUndefined(value)) {
-                return window.getComputedStyle(this.element)[name];
+            if (isString(nameOrProperties)) {
+                if (isUndefined(value)) {
+                    return window.getComputedStyle(this.element)[nameOrProperties];
+                } else {
+                    this.element.style[nameOrProperties] = isString(value) ? value : value.toString();
+                    return this;
+                }
             } else {
-                this.element.style[name] = isString(value) ? value : value.toString();
+                Object.keys(nameOrProperties).forEach(x => this.css(x, nameOrProperties[x]));
                 return this;
             }
         }
