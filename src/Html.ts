@@ -9,7 +9,7 @@ export interface ITag {
     css(): CSSStyleDeclaration;
     css(name: string): string;
     css(name: string, value: string | number): this;
-    css(style: { [mark: string]: string | number }): this;
+    css(style: { [key: string]: string | number }): this;
 
     className(): string;
     className(name: string): this;
@@ -49,9 +49,9 @@ class Tag implements ITag {
     public css(): CSSStyleDeclaration;
     public css(name: string): string;
     public css(name: string, value: string | number): this;
-    public css(properties: { [mark: string]: string | number }): this;
+    public css(properties: { [key: string]: string | number }): this;
     public css(
-        nameOrProperties?: string | { [mark: string]: string | number }, 
+        nameOrProperties?: string | { [key: string]: string | number }, 
         value?: string | number
     ): CSSStyleDeclaration | string | this {
         if (isUndefined(nameOrProperties)) {
