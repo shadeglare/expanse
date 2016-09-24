@@ -183,12 +183,10 @@ class Tag implements ITag {
     private eventListeners: { [event: string]: ((e: Event) => any)[] } = {};
 }
 
-export function tag(name: string) {
-    return function(...args: any[]): ITag {
-        let instance = new Tag(name);
-        return instance.append(...args);
-    }
-}
+export const tag = (name: string) => (...args: any[]): ITag => {
+    let instance = new Tag(name);
+    return instance.append(...args);
+};
 
 export const h1 = tag("h1");
 export const h2 = tag("h2");
