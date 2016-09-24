@@ -6,14 +6,17 @@ export interface ITag {
     text(): string;
     text(value: string): this;
 
+    val(): string;
+    val(value: string | number): this;
+
     css(): CSSStyleDeclaration;
     css(name: string): string;
     css(name: string, value: string | number): this;
-    css(style: { [key: string]: string | number }): this;
+    css(properties: { [key: string]: string | number }): this;
 
-    className(): string;
-    className(name: string): this;
-    removeClassName(): this;
+    class(): string;
+    class(name: string): this;
+    removeClass(): this;
 
     attr(name: string): string;
     attr(name: string, value: string): this;
@@ -46,6 +49,17 @@ class Tag implements ITag {
         }
     }
 
+    public val(): string;
+    public val(value: string | number): this;
+    public val(value?: string | number): string | this {
+        if (isUndefined(value)) {
+            return (<HTMLInputElement>this.element).value;
+        } else {
+            (<HTMLInputElement>this.element).value = isString(value) ? value : value.toString();
+            return this;
+        }
+    }
+
     public css(): CSSStyleDeclaration;
     public css(name: string): string;
     public css(name: string, value: string | number): this;
@@ -71,9 +85,9 @@ class Tag implements ITag {
         }
     }
 
-    public className(): string;
-    public className(value: string): this;
-    public className(value?: string): this | string {
+    public class(): string;
+    public class(value: string): this;
+    public class(value?: string): this | string {
         if (isUndefined(value)) {
             return this.element.className;
         } else {
@@ -82,7 +96,7 @@ class Tag implements ITag {
         }
     }
 
-    public removeClassName() {
+    public removeClass() {
         this.removeAttr("class");
         return this;
     }
