@@ -1,6 +1,6 @@
 {
   "name": "expanse",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "A simple HTML DOM builder based on the native DOM API",
   "main": "dist/Html.js",
   "typings": "dist/Html",

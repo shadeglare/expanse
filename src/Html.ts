@@ -111,16 +111,16 @@ class Tag implements ITag {
         nameOrProperties?: string | { [key: string]: string },
         value?: string
     ): this | string {
-        if (isUndefined(value)) {
-            return this.element.getAttribute(name);
-        } else {
-            if (isString(nameOrProperties)) {
-                this.element.setAttribute(name, value);
+        if (isString(nameOrProperties)) {
+            if (isUndefined(value)) {
+                return this.element.getAttribute(nameOrProperties);
             } else {
-                Object.keys(nameOrProperties).forEach(x => this.attr(x, nameOrProperties[x]));
+                this.element.setAttribute(nameOrProperties, value);
+                return this;
             }
+        } else {
+            Object.keys(nameOrProperties).forEach(x => this.attr(x, nameOrProperties[x]));
             return this;
-
         }
     }
 
