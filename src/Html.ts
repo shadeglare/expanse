@@ -23,7 +23,7 @@ export interface ITag {
     removeAttr(name: string): this;
 
     append(...args: any[]): this;
-    appendTo(target: HTMLElement): this;
+    appendTo(target: Element): this;
     appendTo(target: ITag): this;
     detach(): this;
 
@@ -32,8 +32,10 @@ export interface ITag {
 }
 
 class Tag implements ITag {
-    constructor(private name: string) {
-        this.element = document.createElement(name);
+    constructor(private name: string, private namespace?: string) {
+        this.element = !!namespace ?
+            <HTMLElement>document.createElementNS(namespace, name) :
+            document.createElement(this.name);
     }
 
     public get native() { return this.element; }
@@ -65,7 +67,7 @@ class Tag implements ITag {
     public css(name: string, value: string | number): this;
     public css(properties: { [key: string]: string | number }): this;
     public css(
-        nameOrProperties?: string | { [key: string]: string | number }, 
+        nameOrProperties?: string | { [key: string]: string | number },
         value?: string | number
     ): CSSStyleDeclaration | string | this {
         if (isUndefined(nameOrProperties)) {
@@ -132,9 +134,9 @@ class Tag implements ITag {
         return this;
     }
 
-    public appendTo(target: HTMLElement): this;
+    public appendTo(target: Element): this;
     public appendTo(target: Tag): this;
-    public appendTo(target: HTMLElement | Tag) {
+    public appendTo(target: Element | Tag) {
         if (target instanceof Tag) {
             target.element.appendChild(this.element);
         } else {
@@ -183,10 +185,12 @@ class Tag implements ITag {
     private eventListeners: { [event: string]: ((e: Event) => any)[] } = {};
 }
 
-export const tag = (name: string) => (...args: any[]): ITag => {
-    let instance = new Tag(name);
+export const tag = (name: string, namespace?: string) => (...args: any[]): ITag => {
+    let instance = new Tag(name, namespace);
     return instance.append(...args);
 };
+
+export const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
 export const h1 = tag("h1");
 export const h2 = tag("h2");
