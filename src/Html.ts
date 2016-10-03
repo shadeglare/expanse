@@ -20,6 +20,7 @@ export interface ITag {
 
     attr(name: string): string;
     attr(name: string, value: string): this;
+    attr(properties: { [key: string]: string }): this;
     removeAttr(name: string): this;
 
     append(...args: any[]): this;
@@ -105,12 +106,21 @@ class Tag implements ITag {
 
     public attr(name: string): string;
     public attr(name: string, value: string): this;
-    public attr(name: string, value?: string): this | string {
+    public attr(properties: { [key: string]: string }): this;
+    public attr(
+        nameOrProperties?: string | { [key: string]: string },
+        value?: string
+    ): this | string {
         if (isUndefined(value)) {
             return this.element.getAttribute(name);
         } else {
-            this.element.setAttribute(name, value);
+            if (isString(nameOrProperties)) {
+                this.element.setAttribute(name, value);
+            } else {
+                Object.keys(nameOrProperties).forEach(x => this.attr(x, nameOrProperties[x]));
+            }
             return this;
+
         }
     }
 
