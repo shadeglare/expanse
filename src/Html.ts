@@ -1,38 +1,6 @@
 import { isUndefined, isString } from "./Utils";
 
-export interface ITag {
-    native: HTMLElement;
-
-    text(): string;
-    text(value: string): this;
-
-    val(): string;
-    val(value: string | number): this;
-
-    css(): CSSStyleDeclaration;
-    css(name: string): string;
-    css(name: string, value: string | number): this;
-    css(properties: { [key: string]: string | number }): this;
-
-    class(): string;
-    class(name: string): this;
-    removeClass(): this;
-
-    attr(name: string): string;
-    attr(name: string, value: string): this;
-    attr(properties: { [key: string]: string }): this;
-    removeAttr(name: string): this;
-
-    append(...args: any[]): this;
-    appendTo(target: Element): this;
-    appendTo(target: ITag): this;
-    detach(): this;
-
-    on(event: string, callback: (e: Event) => any): this;
-    off(event: string, callback?: (e: Event) => any): this;
-}
-
-class Tag implements ITag {
+export class Tag {
     constructor(private name: string, private namespace?: string) {
         this.element = !!namespace ?
             <HTMLElement>document.createElementNS(namespace, name) :
@@ -195,7 +163,7 @@ class Tag implements ITag {
     private eventListeners: { [event: string]: ((e: Event) => any)[] } = {};
 }
 
-export const tag = (name: string, namespace?: string) => (...args: any[]): ITag => {
+export const tag = (name: string, namespace?: string) => (...args: any[]): Tag => {
     let instance = new Tag(name, namespace);
     return instance.append(...args);
 };
